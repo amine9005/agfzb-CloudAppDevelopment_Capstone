@@ -1,0 +1,17 @@
+
+
+.conatiner{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+}
+
+.conatiner-left{
+
+    display: flex;
+    flex-wrap: wrap;
+    left: .5rem;
+
+}
