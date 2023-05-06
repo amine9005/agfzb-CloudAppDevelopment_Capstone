@@ -17,6 +17,12 @@ def main(param_dict):
     Returns:
         _type_: _description_ TODO
     """
+    
+    client = Cloudant.iam(
+            account_name=dict["COUCH_USERNAME"],
+            api_key=dict["IAM_API_KEY"],
+            connect=True,
+        )
 
     try:
         client = Cloudant.iam(
