@@ -17,12 +17,31 @@ load_dotenv()
 apikey = os.environ['apikey']
 url = os.environ['url']
 
+def pretty_print_POST(req):
+    """
+    At this point it is completely built and ready
+    to be fired; it is "prepared".
+
+    However pay attention at the formatting used in 
+    this function because it is programmed to be pretty 
+    printed and may differ from the actual request.
+    """
+    print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+        '-----------START-----------',
+        req.method + ' ' + req.url,
+        '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+        req.body,
+    ))
+
 def get_request(url, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
     try:
         response = requests.get(url, headers={'Content-Type': 'application/json'},
                                 params=kwargs)
+        print("Response Text: ",response.text)
+        # print("\nrequesting: ",requests.get(url, headers={'Content-Type': 'application/json'},
+        #                         params=kwargs))
     except:
         # If any error occurs
         print("Network exception occurred")
@@ -46,8 +65,10 @@ def get_dealers_from_cf(url, **kwargs):
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
+        # print("\nDealers HERE: ",dealers)
         # For each dealer object
         for dealer in dealers:
+            # print("Dealer here: ",dealer)
             # Get its content in `doc` object
             dealer_doc = dealer["doc"]
             # Create a CarDealer object with values in `doc` object
@@ -69,7 +90,7 @@ def get_dealers_from_cf(url, **kwargs):
 def get_dealers_by_id(url, dealerId,**kwargs):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url)
+    json_result = get_request(url,dealerId=dealerId)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
